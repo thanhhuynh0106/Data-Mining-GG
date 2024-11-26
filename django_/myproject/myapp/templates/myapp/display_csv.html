@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Display CSV</title>
+</head>
+<body>
+    <h2>CSV Data</h2>
+    <div>
+        {{ html_table|safe }}
+    </div>
+    <a href="{% url 'home' %}">Back to Home</a>
+</body>
+</html>
