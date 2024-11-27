@@ -1,10 +1,11 @@
 from django.shortcuts import render
 
+
 import pandas as pd
 from mlxtend.frequent_patterns import apriori, association_rules
 
 def home(request):
-    return render(request, 'myapp/home.html')
+    return render(request, 'home.html')
 
 def display_csv(request):
     import pandas as pd
@@ -28,5 +29,28 @@ def apriori_view(request):
     frequent_itemsets = apriori(basket, min_support=0.01, use_colnames=True)
     rules = association_rules(frequent_itemsets, metric="lift", min_threshold=1, num_itemsets=10)
     context = {'rules': rules.to_html()}
-    return render(request, 'myapp/apriori.html', context)
+    return render(request, 'apriori.html', context)
 
+
+# Upload file
+
+def upload_data(request):
+    preview_data = None  # Dữ liệu xem trước
+    if request.method == "POST":
+        uploaded_file = request.FILES.get('file')
+        if uploaded_file:
+            # Đọc file Excel/CSV để xem trước dữ liệu
+            try:
+                if uploaded_file.name.endswith('.csv'):
+                    df = pd.read_csv(uploaded_file)
+                elif uploaded_file.name.endswith('.xlsx'):
+                    df = pd.read_excel(uploaded_file)
+                else:
+                    raise ValueError("Chỉ hỗ trợ file CSV hoặc Excel.")
+                
+                # Lấy 5 dòng đầu tiên làm dữ liệu xem trước
+                preview_data = df.head().to_html(classes='table table-striped', index=False)
+            except Exception as e:
+                preview_data = f"Lỗi: {str(e)}"
+    
+    return render(request, 'upload_data.html', {'preview_data': preview_data})

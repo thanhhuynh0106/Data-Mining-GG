@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nhập Dữ Liệu</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      padding: 20px;
+    }
+    h1 {
+      font-size: 24px;
+      color: #444;
+    }
+    .form-group {
+      margin: 20px 0;
+    }
+    .form-group label {
+      font-weight: bold;
+    }
+    .form-group input {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      background-color: #4caf50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    .preview-table {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Nhập Dữ Liệu</h1>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="file">Chọn file dữ liệu (CSV/Excel):</label>
+        <input type="file" id="file" name="file" required>
+      </div>
+      <button type="submit">Xem trước</button>
+    </form>
+
+    {% if preview_data %}
+      <div class="preview-table">
+        <h2>Dữ liệu xem trước:</h2>
+        {{ preview_data|safe }}
+      </div>
+    {% endif %}
+  </div>
+</body>
+</html>

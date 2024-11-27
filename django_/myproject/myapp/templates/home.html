@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Mining Interface</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+    }
+
+  
+    .sidebar {
+      width: 250px;
+      background-color: #ffffff;
+      color: #444;
+      display: flex;
+      flex-direction: column;
+      border-right: 2px solid #f0f0f0;
+      height: 100vh;
+    }
+
+    .sidebar h2 {
+      text-align: center;
+      padding: 20px 0;
+      margin: 0;
+      background-color: #4caf50;
+      color: white;
+      font-size: 20px;
+    }
+
+    .menu {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      flex-grow: 1;
+    }
+
+    .menu li {
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      border-bottom: 1px solid #f0f0f0;
+      color: #444;
+    }
+
+    .menu li:hover {
+      background-color: #e8f5e9;
+      color: #4caf50;
+    }
+
+    .menu li i {
+      margin-right: 10px;
+      color: #4caf50;
+    }
+
+    .menu li a {
+      text-decoration: none; 
+      color: inherit; 
+      flex-grow: 1; 
+    }
+
+    .menu li a:hover {
+      color: #4caf50; 
+    }
+
+    .menu .submenu {
+      display: none;
+      flex-direction: column;
+      padding-left: 30px;
+    }
+
+    .menu li:hover .submenu {
+      display: flex;
+    }
+
+    .submenu li {
+      font-size: 14px;
+      color: #666;
+      border: none;
+    }
+
+    .submenu li:hover {
+      background-color: #f1f8e9;
+      color: #4caf50;
+    }
+
+    .content {
+      flex-grow: 1;
+      padding: 20px;
+      background-color: #f9f9f9;
+    }
+
+    .content h1 {
+      font-size: 24px;
+      color: #444;
+    }
+
+    .content img {
+      max-width: 100%;
+      border-radius: 10px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <h2>DATA MINING</h2>
+    <ul class="menu">
+      <li>
+        <i class="fas fa-home"></i> Trang chủ
+      </li>
+      <li>
+        <i class="fas fa-file-import"></i> <a href="{% url 'upload_data' %}">Nhập dữ liệu</a>
+      </li>      
+      <li>
+        <i class="fas fa-database"></i> <a href="{% url 'display_csv' %}">Hiển thị dữ liệu</a>
+      </li>
+      <li>
+        <i class="fas fa-chart-line"></i> Tập phổ biến
+      </li>
+      <li>
+        <i class="fas fa-balance-scale"></i> Luật kết hợp
+      </li>
+      <li>
+        <i class="fas fa-chart-bar"></i> Mức độ tương quan
+      </li>
+      <li>
+        <i class="fas fa-tree"></i> Cây quyết định
+        <ul class="submenu">
+          <li><i class="fas fa-angle-right"></i> Gain</li>
+          <li><i class="fas fa-angle-right"></i> Gini</li>
+          <li><i class="fas fa-angle-right"></i> IF - THEN</li>
+        </ul>
+      </li>
+      <li>
+        <i class="fas fa-random"></i> Xấp xỉ
+        <ul class="submenu">
+          <li><i class="fas fa-angle-right"></i> Tính xấp xỉ</li>
+          <li><i class="fas fa-angle-right"></i> Khảo sát phụ thuộc</li>
+          <li><i class="fas fa-angle-right"></i> Tính reducts</li>
+        </ul>
+      </li>
+      <li>
+        <i class="fas fa-layer-group"></i> Gom cụm
+        <ul class="submenu">
+          <li><i class="fas fa-angle-right"></i> Bayes</li>
+          <li><i class="fas fa-angle-right"></i> Laplace</li>
+          <li><i class="fas fa-angle-right"></i> K-Means</li>
+          <li><i class="fas fa-angle-right"></i> Kohonen</li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+  <div class="content">
+    <h1>Chào mừng bạn trở lại!</h1>
+    <img src="https://via.placeholder.com/600x300.png?text=DATA+MINING" alt="Data Mining">
+  </div>
+</body>
+</html>
