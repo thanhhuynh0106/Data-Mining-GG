@@ -1,0 +1,39 @@
+<h1 style="color: #4caf50;">Tính xấp xỉ</h1>
+<div>
+  <button id="show-data" style="margin: 5px; padding: 10px; background-color: #f0f0f0; border: 1px solid #ccc;">Xem dữ liệu</button>
+  <button id="show-result" style="margin: 5px; padding: 10px; background-color: #f0f0f0; border: 1px solid #ccc;">Xem kết quả</button>
+</div>
+<div id="result-container" style="margin-top: 20px;">
+  <!-- Kết quả hoặc dữ liệu sẽ được hiển thị ở đây -->
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function() {
+    // Xử lý khi nhấn nút "Xem dữ liệu"
+    $('#show-data').click(function() {
+      $.ajax({
+        url: "{% url 'show_data' %}",
+        success: function(data) {
+          $('#result-container').html(data); // Hiển thị dữ liệu trong container
+        },
+        error: function() {
+          $('#result-container').html('<p style="color: red;">Không thể tải dữ liệu.</p>');
+        }
+      });
+    });
+
+    // Xử lý khi nhấn nút "Xem kết quả"
+    $('#show-result').click(function() {
+      $.ajax({
+        url: "{% url 'calculate_approximation' %}",
+        success: function(data) {
+          $('#result-container').html(data); // Hiển thị kết quả trong container
+        },
+        error: function() {
+          $('#result-container').html('<p style="color: red;">Không thể tính toán kết quả.</p>');
+        }
+      });
+    });
+  });
+</script>

@@ -1,0 +1,7 @@
+<h1>Nhập dữ liệu</h1>
+<form id="upload-form" action="{% url 'upload_data' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <label for="file">Chọn file CSV hoặc Excel:</label>
+    <input type="file" id="file" name="file" accept=".csv, .xlsx">
+    <button type="submit">Tải lên</button>
+</form>
