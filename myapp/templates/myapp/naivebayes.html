@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Naive Bayes</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+
+    <h1 style="color: #4caf50;">Naive Bayes</h1>
+    <div>
+        <button id="show-data" style="margin: 5px; padding: 10px; background-color: #f0f0f0; border: 1px solid #ccc;">Xem dữ liệu</button>
+          </div>
+    <div style="margin-top: 20px;">
+        <form id="naivebayes-form" method="post" style="padding: 10px;">
+            {% csrf_token %}
+            <div class="form-group" >
+                <label for="age">Nhập tuổi:</label>
+                <input type="number" id="age" name="age" class="form-control" placeholder="17" style="width:40%;">
+            </div>
+            <div class="form-group">
+                <label for="sex">Giới tính:</label>
+                <select id="sex" name="sex" class="form-control" style="width:40%;">
+                    <option value="M">M</option>
+                    <option value="F">F</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="BP">Huyết áp:</label>
+                <select id="BP" name="BP" class="form-control" style="width:40%;">
+                    <option value="HIGH">HIGH</option>
+                    <option value="LOW">LOW</option>
+                    <option value="NORMAL">NORMAL</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="Cholesterol">Cholesterol:</label>
+                <select id="Cholesterol" name="Cholesterol" class="form-control" style="width:40%;">
+                    <option value="HIGH">HIGH</option>
+                    <option value="NORMAL">NORMAL</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="Na_to_K">Nhập Na_to_K:</label>
+                <input type="number" step="0.1" id="Na_to_K" name="Na_to_K" class="form-control" placeholder="10.8" style="width:40%;">
+            </div>
+            <button id="run-naivebayes" type="submit" class="btn btn-primary">Chạy kết quả</button>
+            <button id="run-smoothing" type="submit" class="btn" style="margin-left: 10px; background-color: green; color: white">Chạy kết quả có làm trơn</button>
+        </form>
+    </div>
+    <div id="result-container" style="margin-top: 20px; padding: 10px;">
+        <!-- Kết quả hoặc dữ liệu sẽ được hiển thị ở đây -->
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Xử lý khi nhấn nút "Xem dữ liệu"
+            $('#show-data').click(function(event) {
+                event.preventDefault(); // Ngăn chặn hành vi mặc định của nút
+                $.ajax({
+                    url: "{% url 'show_data_naivebayes' %}",
+                    success: function(data) {
+                        $('#result-container').html(data); // Hiển thị dữ liệu trong container
+                    },
+                    error: function() {
+                        $('#result-container').html('<p style="color: red;">Không thể tải dữ liệu.</p>');
+                    }
+                });
+            });
+
+            // Xử lý khi submit form
+            $('#run-naivebayes').click(function(event) {
+                event.preventDefault(); // Ngăn chặn hành vi mặc định của nút
+                $.ajax({
+                    type: 'POST',
+                    url: "{% url 'calculate_naivebayes' %}",
+                    data: {
+                        'age': $('#age').val(),
+                        'sex': $('#sex').val(),
+                        'BP': $('#BP').val(),
+                        'Cholesterol': $('#Cholesterol').val(),
+                        'Na_to_K': $('#Na_to_K').val(),
+                        'csrfmiddlewaretoken': '{{ csrf_token }}'
+                    },
+                    success: function(data) {
+                        $('#result-container').html(data); // Hiển thị kết quả trong container
+                    },
+                    error: function() {
+                        $('#result-container').html('<p style="color: red;">Không thể tính toán kết quả.</p>');
+                    }
+                });
+            });
+
+            $('#run-smoothing').click(function(event) {
+                event.preventDefault(); // Ngăn chặn hành vi mặc định của nút
+                $.ajax({
+                    type: 'POST',
+                    url: "{% url 'calculate_naivebayes_smoothing' %}",
+                    data: {
+                        'age': $('#age').val(),
+                        'sex': $('#sex').val(),
+                        'BP': $('#BP').val(),
+                        'Cholesterol': $('#Cholesterol').val(),
+                        'Na_to_K': $('#Na_to_K').val(),
+                        'csrfmiddlewaretoken': '{{ csrf_token }}'
+                    },
+                    success: function(data) {
+                        $('#result-container').html(data); // Hiển thị kết quả trong container
+                    },
+                    error: function() {
+                        $('#result-container').html('<p style="color: red;">Không thể tính toán kết quả.</p>');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

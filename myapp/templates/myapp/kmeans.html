@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>K-Means</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+<h1 style="color: #4caf50;">K-means Clustering</h1>
+<div>
+  <button id="show-data" style="margin: 5px; padding: 10px; background-color: #f0f0f0; border: 1px solid #ccc;">Xem dữ liệu</button>
+  <form id="kmeans-form" method="post" action="{% url 'kmeans' %}" style="padding: 10px;">
+  {% csrf_token %}
+  <label for="num_clusters">Number of Clusters:</label>
+  <input type="text" id="num_clusters" name="num_clusters">
+  <br>
+  <button type="submit" class="btn btn-primary">Chạy kết quả</button>
+  </form>
+  <div id="loading" style="display: none; color: blue; padding: 10px">Loading...</div>
+</div>
+<div id="result-container" style="margin-top: 20px; padding: 10px;">
+  <!-- Kết quả hoặc dữ liệu sẽ được hiển thị ở đây -->
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function() {
+  // Xử lý khi nhấn nút "Xem dữ liệu"
+  $('#show-data').click(function(event) {
+    event.preventDefault();
+    $.ajax({
+    url: "{% url 'show_data_kmeans' %}",
+    success: function(data) {
+      $('#result-container').html(data); // Hiển thị dữ liệu trong container
+    },
+    error: function() {
+      $('#result-container').html('<p style="color: red;">Không thể tải dữ liệu.</p>');
+    }
+    });
+  });
+
+  // Xử lý khi submit form kmeans
+  $('#kmeans-form').submit(function(event) {
+    event.preventDefault();
+
+    // Show loading message
+    $('#loading').show();
+    $('#result-container').hide();
+
+    $.ajax({
+    type: 'POST',
+    url: "{% url 'calculate_kmeans' %}",
+    data: {
+      'num_clusters': $('#num_clusters').val(),
+      'csrfmiddlewaretoken': '{{ csrf_token }}'
+    },
+    success: function(data) {
+      var timestamp = new Date().getTime();
+      var newImg = `<img src="/static/pictures/kmeans_clusters_` + timestamp + `.png" alt="K-means Clustering">`;
+      $('#loading').hide();
+      $('#result-container').html(data + newImg);
+      $('#result-container').show();
+    },
+    error: function() {
+      // Hide loading message and show error
+      $('#loading').hide();
+      $('#result-container').html('<p style="color: red;">Không thể tính toán kết quả.</p>');
+      $('#result-container').show();
+    }
+    });
+  });
+
+  });
+</script>
+</body>
+</html>

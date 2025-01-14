@@ -2,30 +2,34 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
-    <title>Apriori</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kohonen</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 <body>
-<h1 style="color: #4caf50;">Tập phổ biến và luật kết hợp</h1>
+<h1 style="color: #4caf50;">Kohonen Clustering</h1>
 <div>
     <button id="show-data" style="margin: 5px; padding: 10px; background-color: #f0f0f0; border: 1px solid #ccc;">Xem dữ liệu</button>
-    {% comment %} <button id="show-result" style="margin: 5px; padding: 10px; background-color: #f0f0f0; border: 1px solid #ccc;">Xem kết quả</button> {% endcomment %}
-    <form id="apriori-form" method="post" action="{% url 'apriori' %}" style="padding: 10px;">
+    <form id="kohonen-form" method="post" action="{% url 'kohonen' %} " style="padding: 10px;">
         {% csrf_token %}
-        <label for="min_support">Min Support:</label>
-        <input type="text" id="min_support" name="min_support">
+        <label for="num_rows">Number of Rows:</label>
+        <input type="text" id="num_rows" name="num_rows" placeholder="10">
         <br>
-        <label for="min_confidence">Min Confidence:</label>
-        <input type="text" id="min_confidence" name="min_confidence">
+        <label for="num_cols">Number of Columns:</label>
+        <input type="text" id="num_cols" name="num_cols" placeholder="10">
+        <br>
+        <label for="learning_rate">Learning Rate:</label>
+        <input type="text" id="learning_rate" name="learning_rate" placeholder="0.1">
+        <br>
+        <label for="num_iters">Number of Iterations:</label>
+        <input type="text" id="num_iters" name="num_iters" placeholder="100">
+        <br>
+        <label for="radius">Radius:</label>
+        <input type="text" id="radius" name="radius" placeholder="1">
         <br>
         <button type="submit" class="btn btn-primary">Chạy kết quả</button>
     </form>
-    <div id="loading" style="display: none; color: blue;">Loading...</div>
-    
-    {{ frequent_itemsets_html|safe }}
-    {{ rules_html|safe }}
-
+    <div id="loading" style="display: none; color: blue; padding: 10px;">Loading...</div>
 </div>
 <div id="result-container" style="margin-top: 20px; padding: 10px;">
     <!-- Kết quả hoặc dữ liệu sẽ được hiển thị ở đây -->
@@ -34,9 +38,10 @@
 <script>
     $(document).ready(function() {
         // Xử lý khi nhấn nút "Xem dữ liệu"
-        $('#show-data').click(function() {
+        $('#show-data').click(function(event) {
+            event.preventDefault();
             $.ajax({
-                url: "{% url 'show_data_apriori' %}",
+                url: "{% url 'show_data_kohonen' %}",
                 success: function(data) {
                     $('#result-container').html(data); // Hiển thị dữ liệu trong container
                 },
@@ -46,21 +51,8 @@
             });
         });
 
-        // Xử lý khi nhấn nút "Xem kết quả"
-{% comment %}         $('#show-result').click(function() {
-            $.ajax({
-                url: "{% url 'calculate_apriori' %}",
-                success: function(data) {
-                    $('#result-container').html(data); // Hiển thị kết quả trong container
-                },
-                error: function() {
-                    $('#result-container').html('<p style="color: red;">Không thể tính toán kết quả.</p>');
-                }
-            });
-        });
- {% endcomment %}
         // Xử lý khi submit form
-        $('#apriori-form').submit(function(event) {
+        $('#kohonen-form').submit(function(event) {
             event.preventDefault();
 
             // Show loading message
@@ -69,15 +61,20 @@
 
             $.ajax({
                 type: 'POST',
-                url: "{% url 'calculate_apriori' %}",
+                url: "{% url 'calculate_kohonen' %}",
                 data: {
-                    'min_support': $('#min_support').val(),
+                    'num_rows': $('#num_rows').val(),
+                    'num_cols': $('#num_cols').val(),
+                    'learning_rate': $('#learning_rate').val(),
+                    'num_iters': $('#num_iters').val(),
+                    'radius': $('#radius').val(),
                     'csrfmiddlewaretoken': '{{ csrf_token }}'
                 },
                 success: function(data) {
-                    // Hide loading message and show results
+                    var timestamp = new Date().getTime();
+                    var newImg = `<img src="/static/pictures/kohonen_clusters_` + timestamp + `.png" alt="Kohonen Clustering">`;
                     $('#loading').hide();
-                    $('#result-container').html(data);
+                    $('#result-container').html(data + newImg);
                     $('#result-container').show();
                 },
                 error: function() {

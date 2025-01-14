@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tính xấp xỉ</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reduct</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 <body>
-<h1 style="color: #4caf50;">Tính xấp xỉ</h1>
+<h1 style="color: #4caf50;">Tính reduct</h1>
 <div>
   <button id="show-data" style="margin: 5px; padding: 10px; background-color: #f0f0f0; border: 1px solid #ccc;">Xem dữ liệu</button>
   <button id="show-result" style="margin: 5px; padding: 10px; background-color: #f0f0f0; border: 1px solid #ccc;">Xem kết quả</button>
@@ -22,7 +22,7 @@
     // Xử lý khi nhấn nút "Xem dữ liệu"
     $('#show-data').click(function() {
       $.ajax({
-        url: "{% url 'show_data' %}",
+        url: "{% url 'show_data_reduct' %}",
         success: function(data) {
           $('#result-container').html(data); // Hiển thị dữ liệu trong container
         },
@@ -35,7 +35,7 @@
     // Xử lý khi nhấn nút "Xem kết quả"
     $('#show-result').click(function() {
       $.ajax({
-        url: "{% url 'calculate_approximation' %}",
+        url: "{% url 'calculate_reduct' %}",
         success: function(data) {
           $('#result-container').html(data); // Hiển thị kết quả trong container
         },

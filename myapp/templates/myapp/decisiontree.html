@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decision Tree</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+  <h1 style="color: #4caf50;">Cây quyết định</h1>
+  <div>
+    <button id="show-data" style="margin: 5px; padding: 10px; background-color: #f0f0f0; border: 1px solid #ccc;">Xem dữ liệu</button>
+    <button id="show-result" style="margin: 5px; padding: 10px; background-color: #f0f0f0; border: 1px solid #ccc;">Xem kết quả</button>
+  </div>
+  <div id="result-container" style="margin-top: 20px; padding: 10px;">
+    <!-- Kết quả hoặc dữ liệu sẽ được hiển thị ở đây -->
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      // Xử lý khi nhấn nút "Xem dữ liệu"
+      $('#show-data').click(function() {
+        $.ajax({
+          url: "{% url 'show_data_decisiontree' %}",
+          success: function(data) {
+            $('#result-container').html(data); // Hiển thị dữ liệu trong container
+          },
+          error: function() {
+            $('#result-container').html('<p style="color: red;">Không thể tải dữ liệu.</p>');
+          }
+        });
+      });
+
+      // Xử lý khi nhấn nút "Xem kết quả"
+      $('#show-result').click(function() {
+        $.ajax({
+          url: "{% url 'calculate_decisiontree' %}",
+          success: function(data) {
+            $('#result-container').html(data); // Hiển thị kết quả trong container
+          },
+          error: function() {
+            $('#result-container').html('<p style="color: red;">Không thể tính toán kết quả.</p>');
+          }
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>

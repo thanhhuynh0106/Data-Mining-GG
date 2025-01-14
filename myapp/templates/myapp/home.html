@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -116,37 +115,33 @@
     <h2>DATA MINING</h2>
     <ul class="menu">
       <li>
-        <i class="fas fa-home"></i> Trang chủ
+        <i class="fas fa-home"></i> <a href="{% url 'home' %}">Trang chủ</a>
       </li>
       <li>
-        <i class="fas fa-file-import"></i> <a href="{% url 'upload_data' %}">Nhập dữ liệu</a>
+        <i class="fas fa-file-import"></i><a href="{% url 'upload' %}">Nhập dữ liệu</a>
       </li>      
       <li>
-        <i class="fas fa-database"></i> <a href="">Tiền xử lý dữ liệu</a>
-      </li>
-      <li>
-        <i class="fas fa-chart-line"></i> Tập phổ biến và luật kết hợp
+        <i class="fas fa-chart-line"></i> <a href="{% url 'apriori' %}">Tập phổ biến và luật kết hợp</a>
       </li>
       <li>
         <i class="fas fa-random"></i> Tập thô
         <ul class="submenu">
           <li><i class="fas fa-angle-right"></i> <a href="{% url 'approximation' %}">Tính xấp xỉ</a></li>
-          <li><i class="fas fa-angle-right"></i> Khảo sát phụ thuộc</li>
-          <li><i class="fas fa-angle-right"></i> Tính reducts</li>
+          <li><i class="fas fa-angle-right"></i><a href="{%url 'reduct' %}">Tính reducts</a></li>
         </ul>
       </li>
       <li>
         <i class="fas fa-tree"></i> Phân lớp
         <ul class="submenu">
-          <li><i class="fas fa-angle-right"></i>Cây quyết định</li>
-          <li><i class="fas fa-angle-right"></i>Naive Bayes</li>
+          <li><i class="fas fa-angle-right"></i> <a href="{% url 'decisiontree' %}">Cây quyết định</a></li>
+          <li><i class="fas fa-angle-right"></i> <a href="{% url 'naivebayes' %}">Naive Bayes</a></li>
         </ul>
       </li>
       <li>
         <i class="fas fa-layer-group"></i> Gom cụm
         <ul class="submenu">
-          <li><i class="fas fa-angle-right"></i>K-Means</li>
-          <li><i class="fas fa-angle-right"></i>Kohonen</li>
+          <li><i class="fas fa-angle-right"></i> <a href="{% url 'kmeans' %}">K-Means</a></li>
+          <li><i class="fas fa-angle-right"></i> <a href="{% url 'kohonen' %}"> Kohonen </a></li>
         </ul>
       </li>
     </ul>
